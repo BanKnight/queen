@@ -1,6 +1,6 @@
 
 //node .\lib\bin.js config.js
-
+const assert = require('assert');
 module.exports = async function (ant)
 {
     let arg = ant.args[0]
@@ -19,6 +19,11 @@ module.exports = async function (ant)
                 {
                     return prev + current
                 })
+            }
+
+            ant.handlers.echo = (value) =>
+            {
+                return value
             }
 
             ant.handlers.random = (min, max) =>
@@ -41,6 +46,7 @@ module.exports = async function (ant)
                     return prev
                 }
             }
+
             ant.handlers.throw = () =>
             {
                 throw new Error("error")
@@ -51,9 +57,9 @@ module.exports = async function (ant)
             let others = []
             let values = []
 
-            for (let i = 0; i < 3; i++)
+            for (let i = 0; i < 1000; i++)
             {
-                let test = await ant.spawn("test", ["child"])
+                let test = await ant.spawn("boot", ["child"])
                 let value = await ant.call(test, "random", 1, 10000)
 
                 others.push(test)
@@ -69,16 +75,37 @@ module.exports = async function (ant)
 
             let answer = values.reduce((prev, curr) => { return prev + curr }, 0)
 
-            console.log(values.join(" + "), "=", answer)
-            console.log("result:", result, result2)
+            assert.equal(result, answer)
+            assert.equal(result2, answer)
 
-            {//测试一下agent写法
-                let agent = ant.make_agent(first)
-
-                let value = await agent.caller.random(1, 10000)
-
-                console.log("call agent random", value)
+            let complex = {
+                float: 10.555,
+                int: 1000,
+                string: "hello world",
+                bool: true,
+                array: [1, 2, 3, 4, 5],
+                object: {
+                    a: 1,
+                    b: 2,
+                    c: 3,
+                    d: 4,
+                }
             }
+            complex.self = complex
+
+            for (let i = 0; i < 100; i++)
+            {
+                let index = Math.floor(Math.random() % others.length)
+                let curr = others[index]
+
+                let agent = ant.make_agent(curr)
+
+                let value = await agent.caller.echo(complex)
+
+                assert.deepStrictEqual(value, complex)
+            }
+
+            console.log("test passed")
 
             // await ant.call(first, "throw")
         }
