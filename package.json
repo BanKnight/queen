@@ -1,0 +1,23 @@
+{
+  "name": "queen",
+  "version": "0.0.1",
+  "description": "",
+  "main": "lib/index.js",
+  "bin": {
+    "queen": "bin.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BanKnight/queen.git"
+  },
+  "author": "bansky",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/BanKnight/queen/issues"
+  },
+  "homepage": "https://github.com/BanKnight/queen#readme",
+  "devDependencies": {}
+}
