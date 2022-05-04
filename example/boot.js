@@ -3,13 +3,13 @@
 const assert = require('assert');
 module.exports = async function (ant)
 {
-    let arg = ant.args[0]
+    let arg = ant.$args[0]
 
     init(ant)
 
     ant.once("start", async function ()
     {
-        console.log("ant entry", ant.id, ant.template, arg)
+        console.log("ant entry", ant.id, ant.$template, arg)
 
         if (arg == "child")
         {
