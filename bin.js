@@ -11,8 +11,7 @@ try
 }
 catch (error)
 {
-    console.log("//config does not exist,going to use default config")
+    console.log("//config does not exist,going to use default config", error)
 }
 
 queen.run(config)
-

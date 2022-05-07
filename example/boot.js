@@ -1,6 +1,7 @@
 
 //node .\lib\bin.js config.js
 const assert = require('assert');
+
 module.exports = async function (ant)
 {
     let arg = ant.$args[0]
