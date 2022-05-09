@@ -58,7 +58,7 @@ module.exports = async function (ant)
             let others = []
             let values = []
 
-            for (let i = 0; i < 1000; i++)
+            for (let i = 0; i < 2; i++)
             {
                 let test = await ant.spawn("boot", ["child"])
                 let value = await ant.call(test, "random", 1, 10000)
@@ -106,10 +106,34 @@ module.exports = async function (ant)
                 assert.deepStrictEqual(value, complex)
             }
 
+
+            {
+                const check_name = await ant.spawn("boot", ["child"], { name: "world" })
+
+                let value = await ant.call(check_name, "echo", "hello")
+
+                console.log("spawn world", check_name)
+
+                assert.equal(value, "hello")
+            }
+
+            {
+                let id = ant.search("world")
+
+                console.log("search world and then destroy", id)
+
+                ant.destroy(id)
+            }
+
             console.log("test passed")
 
             // await ant.call(first, "throw")
         }
+    })
+
+    ant.on("exit", function ()
+    {
+        console.log("ant exit", ant.id, ant.$template)
     })
 }
 
