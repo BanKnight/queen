@@ -11,7 +11,15 @@ try
 }
 catch (error)
 {
-    console.log("//config does not exist,going to use default config", error)
+    if (error.code == "MODULE_NOT_FOUND")
+    {
+        console.log("//config does not exist,going to use default config")
+    }
+    else
+    {
+        console.error(error)
+        process.exit(1)
+    }
 }
 
 queen.run(config)
