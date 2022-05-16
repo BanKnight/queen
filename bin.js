@@ -18,7 +18,7 @@ if (first == "-f" || first == "--file")
 else
 {
     let config_path = path.resolve(process.cwd(), process.argv[2] || "config")
-    let config = null
+    config = null
 
     try
     {
