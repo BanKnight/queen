@@ -1,7 +1,7 @@
 
-# Queen(WIP)
+# queen-core(WIP)
 
-> 一个用js的多线程实现的service框架
+> 一个用js的多线程实现的service核心框架
 
 ## Ant
 
