@@ -6,11 +6,12 @@ module.exports = function (ant)
 
         ant.setImmediate(console.log, "aaaaa", "bbbb")
 
-        let id = ant.setInterval(console.log, 3000, "interval 3s", "cccc")
+        let id = ant.setInterval(console.log, 1000, "interval 1s", "cccc")
 
         console.log("setInterval", id)
 
-        ant.setTimeout(ant.clearInterval.bind(ant, id), 10000)
+        ant.setTimeout(ant.clearInterval.bind(ant, id), 5000)
 
+        ant.setTimeout(ant.destroy, 8000)
     })
 }

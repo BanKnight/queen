@@ -9,7 +9,7 @@ module.exports = function (ant)
             on: {
                 changed()
                 {
-                    console.log("changed", this.c)
+                    this.ant.console.log("changed", this.c)
                 }
             }
         })
@@ -34,7 +34,7 @@ define = {
     on: {
         start()
         {
-            console.log("this is start", this.a, this.b, this.c)
+            this.ant.console.log("this is start", this.a, this.b, this.c)
         }
     },
     timers: {
@@ -44,9 +44,14 @@ define = {
             {
                 this.count++
 
-                console.log("this is 5 second", this.a, this.b, this.c, this.count)
+                this.ant.console.log("this is 5 second", this.a, this.b, this.c, this.count)
 
                 this.emit("changed")
+
+                if (this.count == 3)
+                {
+                    this.ant.destroy()
+                }
             }
         }
     }

@@ -8,7 +8,7 @@ module.exports = async function (ant)
 
     ant.once("start", async function ()
     {
-        console.log("ant entry", ant.id, ant.template, arg)
+        ant.console.log("ant entry", ant.id, ant.template, arg)
 
         if (arg == "child")
         {
@@ -19,12 +19,12 @@ module.exports = async function (ant)
             await on_main_entry(ant)
         }
 
-        console.log("test passed")
+        ant.console.log("done")
     })
 
     ant.once("exit", function ()
     {
-        console.log("ant exit", ant.id, ant.template)
+        ant.console.log("exit", ant.template)
     })
 }
 
@@ -75,7 +75,7 @@ async function on_main_entry(ant)
     let others = []
     let values = []
 
-    for (let i = 0; i < 2; i++)
+    for (let i = 0; i < 100; i++)
     {
         let test = await ant.spawn(ant.template, ["child"])
 
@@ -128,16 +128,23 @@ async function on_main_entry(ant)
 
         let value = await ant.caller.echo(check_name, "hello")
 
-        console.log("spawn world", check_name)
-
         assert.equal(value, "hello")
     }
 
     {
         let id = ant.search("world")
 
-        console.log("search world and then destroy", id)
+        ant.console.log("search world and then destroy", id)
+
+        assert.ok(id != null, "world not found")
 
         ant.destroy(id)
     }
+
+    for (const one of others)
+    {
+        ant.destroy(one)
+    }
+
+    ant.destroy()
 }

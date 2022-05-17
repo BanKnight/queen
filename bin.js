@@ -2,27 +2,17 @@
 const path = require('path')
 const queen = require("./lib")
 
-let first = process.argv[2] || "config"
+let first = process.argv[2]
 
 let config = null
 
-if (first == "-f" || first == "--file")
+if (first == "-c" || first == "--config" || first == null)           //指定配置
 {
-    config = {
-        boot: {
-            template: process.argv[3],
-            args: process.argv.slice(4)
-        }
-    }
-}
-else
-{
-    let config_path = path.resolve(process.cwd(), process.argv[2] || "config")
-    config = null
+    let file = null
 
     try
     {
-        config = require(config_path)
+        file = require.resolve(path.resolve(process.argv[3] || "config"))
     }
     catch (error)
     {
@@ -34,6 +24,20 @@ else
         {
             console.error(error)
             process.exit(1)
+        }
+    }
+
+    if (file)
+    {
+        config = require(file)
+    }
+}
+else if (first != null)        //默认配置
+{
+    config = {
+        boot: {
+            template: process.argv[2],
+            args: process.argv.slice(3)
         }
     }
 }
