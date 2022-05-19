@@ -12,11 +12,15 @@ module.exports = function (ant)
             { name: "b" }
         ])
 
+        ant.console.time("time")
+
         ant.console.log("ant log 1")
         ant.console.log("ant log 2")
         ant.console.log("ant log 3")
         ant.console.log("ant log 4")
         ant.console.log("ant log 5")
+
+        ant.console.timeEnd("time")
 
         ant.destroy()
     })
