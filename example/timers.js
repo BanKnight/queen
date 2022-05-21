@@ -14,6 +14,6 @@ module.exports = function (ant)
 
         ant.setTimeout(ant.destroy, 8000)
 
-        ant.setTimeout(console.log, 10000, "unfinished timer")
+        ant.setInterval(console.log, 300, "unfinished timer")
     })
 }
