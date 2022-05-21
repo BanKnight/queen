@@ -31,10 +31,14 @@ define = {
         },
         c: 100,
     },
-    on: {
+    hooks: {
         start()
         {
             this.ant.console.log("this is start", this.a, this.b, this.c)
+        },
+        exit()
+        {
+            this.ant.console.log("this is exit")
         }
     },
     timers: {
