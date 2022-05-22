@@ -1,6 +1,6 @@
 {
   "name": "@bansky/queen-core",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "type": "commonjs",
   "description": "",
   "main": "lib/index.js",
