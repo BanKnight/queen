@@ -9,5 +9,9 @@ module.exports = function (ant)
         const resp = await ant.caller.hello(agent)
 
         ant.console.log("resp from worker", resp)
+
+        ant.destroy()
+
+        ant.quit()
     })
 }
