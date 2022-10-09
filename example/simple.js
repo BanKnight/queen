@@ -1,21 +1,16 @@
-module.exports = function (ant)
-{
-    const arg = ant.args[0]
-
-    ant.on("start", () =>
-    {
-        ant.console.log("ant entry", ant.template, ant.args, ant.worker)
-
-        ant.destroy()
-
-        if (arg != "child")
+export default {
+    hooks: {
+        start()
         {
-            ant.spawn(ant.template, ["child"], ant.options)
-        }
-    })
+            console.log("ant.start", this.$ant.template)
 
-    ant.once("exit", () =>
-    {
-        ant.console.log("on exit", ant.template, ant.args)
-    })
+            this.$ant.setTimeout(console.log, 5000, "timeout timer")
+
+            this.$ant.destroy()
+        },
+        stop()
+        {
+            console.log("ant.stop", this.$ant.template)
+        }
+    },
 }

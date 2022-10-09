@@ -1,43 +1,113 @@
-
 # queen-core(WIP)
 
-> 一个用js的多线程实现的service核心框架
+> 用 vue 的方式写服务端，并且自带多线程 rpc等功能
 
-## Ant
+## Hooks
 
-> 业务逻辑的最小单位，整个系统由无数的ant组成
+> 生命周期函数
 
-+ 隔离：每个ant之间不会互相影响
-+ 联通：每个ant之间，可以通过post传递消息
-+ 事件：它是一个EventEmitter对象
-+ spawn：创建一个ant，与自己可能不在同一个worker
-+ post：向另外一个ant发送信息
+```javascript
+export default {
+    hooks:{
+        start()
+        {
+            console.log("ant.start",this.$ant.template)
 
-### Ant消息类型
-
-+ start：启动命令
-+ exit：退出命令，暂未实现
-+ error：发生错误（未定）
-
-## Worker
-
-> 一条线程，用于真正驱动Ant
-
-+ spawn：本地创建一个ant
-+ gspawn：由queen决策谁来创建ant
-
-## 启动过程
-
-+ 创建worker：根据配置中的worker数量创建worker
-+ 互联互通：联通每个worker
-+ 创建boot：创建第一个ant
-
-```bash
-node ./lib/bin.js config.js
+            this.$ant.setTimeout(console.log,5000,"timeout timer")
+        },
+        stop()
+        {
+            console.log("ant.stop",this.$ant.template)
+        }
+    },
+}
 ```
 
-## 配置
+## 定时器
 
-+ workers：worker的数量，默认为os.cpus().length
-+ search：创建ant时的模板寻找路径
-+ boot：第一个ant的启动参数
+> 系统自动注册定时器实现
+
+```javascript
+export default {
+    data()
+    {
+        return {
+            count:0
+        }
+    },
+    hooks:{
+        start()
+        {
+            this.$ant.setTimeout(console.log,5000,"timeout timer")
+        },
+    },
+    timers:{
+        "1s": {
+            interval: 1000,
+            handler()
+            {
+                console.log("1s", ++this.count)
+            }
+        }
+    }
+}
+```
+
+## 概念
+
++ Application:系统启动类，管理多个线程worker
++ WorkerApplication：某个worker管理类
++ Ant：一个实体,可用于挂载多个实体
++ Component：挂载在Ant的组件，组件可以嵌套
+
+## RPC
+
++ client
+  ```javascript
+  export default {
+      hooks:{
+          async start()
+          {
+              console.log("ant.start",this.$ant.template)
+
+              this.server = await this.$ant.spawn("rpc-server", {
+                  props: {
+                      name: "server"
+                  }
+              })
+
+              const back = await this.$ant.call(this.server, "echo", "hello")
+
+              console.log("get back", back)
+          },
+          stop()
+          {
+              console.log("ant.stop",this.$ant.template)
+          }
+      },
+  }
+  ```
++ server
+  ```javascript
+  export default {
+      props: {
+          name: "unknown name"
+      },
+      hooks: {
+          async start()
+          {
+              console.log("this is", this.name)
+          }
+      },
+      remotes: {
+          echo(from)
+          {
+              return from + " world"
+          }
+      }
+  }
+  ```
+
+## 设计大纲
+
+[设计大纲](设计大纲.md)

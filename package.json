@@ -1,12 +1,9 @@
 {
   "name": "@bansky/queen-core",
   "version": "0.0.8",
-  "type": "commonjs",
+  "type": "module",
   "description": "",
   "main": "lib/index.js",
-  "bin": {
-    "queen-core": "bin.js"
-  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
